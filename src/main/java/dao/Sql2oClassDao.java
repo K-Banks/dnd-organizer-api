@@ -41,7 +41,12 @@ public class Sql2oClassDao implements ClassDAO{
 
     @Override
     public Class findById(int classId) {
-        return null;
+        String sql = "SELECT * FROM classes WHERE id=:id";
+        try (Connection con = sql2o.open()){
+            return con.createQuery(sql)
+                    .addParameter("id", classId)
+                    .executeAndFetchFirst(Class.class);
+        }
     }
 
     @Override

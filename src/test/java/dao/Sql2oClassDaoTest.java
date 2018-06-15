@@ -50,6 +50,12 @@ public class Sql2oClassDaoTest {
 
     @Test
     public void findById() {
+        Class newClass = setupClass();
+        Class newClass2 = setupClass();
+        newClass.setName("Paladin");
+        classDao.add(newClass);
+        classDao.add(newClass2);
+        assertEquals("Paladin", classDao.findById(newClass.getId()).getName());
     }
 
     @Test
