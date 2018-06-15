@@ -82,6 +82,14 @@ public class Sql2oCharacterDaoTest {
 
     @Test
     public void deleteById() {
+        Character newCharacter = setupCharacter();
+        Character newCharacter2 = setupCharacter();
+        Character newCharacter3 = setupCharacter();
+        characterDao.add(newCharacter);
+        characterDao.add(newCharacter2);
+        characterDao.add(newCharacter3);
+        characterDao.deleteById(newCharacter2.getId());
+        assertEquals(2, characterDao.getAll().size());
     }
 
     //Helper

@@ -75,7 +75,14 @@ public class Sql2oCharacterDao implements CharacterDAO {
 
     @Override
     public void deleteById(int characterId) {
-
+        String sql = "DELETE FROM characters WHERE id=:id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", characterId)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
     }
 
 
