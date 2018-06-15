@@ -80,6 +80,9 @@ public class Sql2oClassDao implements ClassDAO{
             con.createQuery(sql)
                     .addParameter("id", classId)
                     .executeUpdate();
+
+            con.createQuery("DELETE FROM classes_spells WHERE classId="+classId)
+                    .executeUpdate();
         } catch (Sql2oException ex) {
             System.out.println(ex);
         }
