@@ -65,9 +65,25 @@ public class App {
             }
         });
 
-//        //GET spell details by id
-//        get("/spells/:spellId", "application/json", (request, response) -> {});
-//
+        //GET spell details by id
+        get("/spells/:spellId", "application/json", (request, response) -> {
+            try {
+                Integer spellId = Integer.parseInt(request.params("spellId"));
+                Spell foundSpell = spellDao.findById(spellId);
+                if (foundSpell != null) {
+                    response.status(200);
+                    return gson.toJson(foundSpell);
+                } else {
+                    response.status(404);
+                    return gson.toJson(String.format("This spell does not exist."));
+                }
+            } catch (Error error) {
+                System.out.println(error);
+                response.status(400);
+                return gson.toJson(String.format("Bad request."));
+            }
+        });
+
 //        //GET character details by id
 //        get("/characters/:characterId", "application/json", (request, response) -> {});
 //
