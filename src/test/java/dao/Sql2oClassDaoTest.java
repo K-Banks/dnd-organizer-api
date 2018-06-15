@@ -37,6 +37,15 @@ public class Sql2oClassDaoTest {
 
     @Test
     public void getAll() {
+        Class newClass = setupClass();
+        Class newClass2 = setupClass();
+        Class newClass3 = setupClass();
+        Class newClass4 = setupClass();
+        classDao.add(newClass);
+        classDao.add(newClass2);
+        classDao.add(newClass3);
+        classDao.add(newClass4);
+        assertEquals(4, classDao.getAll().size());
     }
 
     @Test
