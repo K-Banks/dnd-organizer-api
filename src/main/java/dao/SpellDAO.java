@@ -11,6 +11,7 @@ public interface SpellDAO {
 
     //read
     List<Spell> getAll();
+    List<Spell> getAllSpellsOfAClass(int classId);
     Spell findById(int spellId);
 
     //update

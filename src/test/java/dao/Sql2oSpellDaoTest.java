@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+import models.Class;
+import dao.Sql2oClassDao;
 
 import static org.junit.Assert.*;
 
@@ -37,6 +39,11 @@ public class Sql2oSpellDaoTest {
 
     @Test
     public void assignSpellToClass() {
+        Spell newSpell = setupNewSpell();
+        int classId = 2;
+        spellDao.add(newSpell);
+        spellDao.assignSpellToClass(newSpell.getId(), classId);
+        assertTrue(spellDao.getAllSpellsOfAClass(classId).contains(newSpell));
     }
 
     @Test
@@ -53,6 +60,10 @@ public class Sql2oSpellDaoTest {
 
     @Test
     public void deleteById() {
+    }
+
+    @Test
+    public void getAllSpellsOfAClass() {
     }
 
     //helper

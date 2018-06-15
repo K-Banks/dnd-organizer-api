@@ -53,4 +53,9 @@ public class Sql2oSpellDao implements SpellDAO {
     public void deleteById(int spellId) {
 
     }
+
+    @Override
+    public List<Spell> getAllSpellsOfAClass(int classId) {
+        return null;
+    }
 }
