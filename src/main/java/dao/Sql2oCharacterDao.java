@@ -1,11 +1,16 @@
 package dao;
 
+import org.sql2o.Sql2o;
+
 import java.util.HashMap;
 import java.util.List;
 
 public class Sql2oCharacterDao implements CharacterDAO {
 
-    public Sql2oCharacterDao() {
+    private final Sql2o sql2o;
+
+    public Sql2oCharacterDao(Sql2o sql2o) {
+        this.sql2o = sql2o;
     }
 
     @Override
