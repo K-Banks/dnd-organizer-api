@@ -50,7 +50,7 @@ public class Sql2oCharacterDao implements CharacterDAO {
     }
 
     @Override
-    public void update(HashMap<String, String> propertiesToUpdate, int characterUpdatedId) {
+    public void update(HashMap<String, Object> propertiesToUpdate, int characterUpdatedId) {
 
     }
 

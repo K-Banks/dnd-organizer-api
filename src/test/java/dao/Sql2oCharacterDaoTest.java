@@ -8,6 +8,9 @@ import models.Character;
 
 import org.sql2o.Connection;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 public class Sql2oCharacterDaoTest {
@@ -63,6 +66,18 @@ public class Sql2oCharacterDaoTest {
 
     @Test
     public void update() {
+        Character newCharacter = setupCharacter();
+        characterDao.add(newCharacter);
+        HashMap<String, Object> propertiesToUpdate = new HashMap<>();
+        propertiesToUpdate.put("name", "Kayl");
+        propertiesToUpdate.put("level", 3);
+        propertiesToUpdate.put("classId", 1);
+        propertiesToUpdate.put("race", "Elf");
+        characterDao.update(propertiesToUpdate, newCharacter.getId());
+        assertEquals("Kayl", characterDao.findById(newCharacter.getId()).getName());
+        assertEquals("Elf", characterDao.findById(newCharacter.getId()).getRace());
+        assertEquals(3, characterDao.findById(newCharacter.getId()).getLevel());
+        assertEquals(1, characterDao.findById(newCharacter.getId()).getClassId());
     }
 
     @Test

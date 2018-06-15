@@ -16,7 +16,7 @@ public interface CharacterDAO {
 
 
     //update
-    void update(HashMap<String, String> propertiesToUpdate, int characterUpdatedId);
+    void update(HashMap<String, Object> propertiesToUpdate, int characterUpdatedId);
 
 
     //delete
