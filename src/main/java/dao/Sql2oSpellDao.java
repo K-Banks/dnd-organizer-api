@@ -63,7 +63,25 @@ public class Sql2oSpellDao implements SpellDAO {
 
     @Override
     public void update(HashMap<String, Object> propertiesToUpdate, int spellUpdatedId) {
-
+        int updates = propertiesToUpdate.size();
+        ArrayList<String> properties = new ArrayList<>();
+        ArrayList<Object> values = new ArrayList<>();
+        for (String key: propertiesToUpdate.keySet()) {
+            properties.add(key);
+            values.add(propertiesToUpdate.get(key));
+        }
+        try (Connection con = sql2o.open()) {
+            int i = 0;
+            while (i < updates) {
+                con.createQuery("UPDATE spells SET (" + properties.get(i) + ") = (:" + properties.get(i) + ") WHERE id=:id")
+                        .addParameter(properties.get(i), values.get(i))
+                        .addParameter("id", spellUpdatedId)
+                        .executeUpdate();
+                i = i+1;
+            }
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
     }
 
     @Override

@@ -86,6 +86,7 @@ public class Sql2oSpellDaoTest {
         propertiesToUpdate.put("verbal", false);
         propertiesToUpdate.put("somatic", false);
         propertiesToUpdate.put("material", "material");
+        spellDao.update(propertiesToUpdate, newSpell.getId());
         assertEquals("name", spellDao.findById(newSpell.getId()).getName());
         assertEquals("description", spellDao.findById(newSpell.getId()).getDescription());
         assertEquals("duration", spellDao.findById(newSpell.getId()).getDuration());
