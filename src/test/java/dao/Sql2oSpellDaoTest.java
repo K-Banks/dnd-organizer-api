@@ -48,6 +48,13 @@ public class Sql2oSpellDaoTest {
 
     @Test
     public void getAll() {
+        Spell newSpell = setupNewSpell();
+        Spell newSpell2 = setupNewSpell();
+        Spell newSpell3 = setupNewSpell();
+        spellDao.add(newSpell);
+        spellDao.add(newSpell2);
+        spellDao.add(newSpell3);
+        assertEquals(3, spellDao.getAll().size());
     }
 
     @Test
