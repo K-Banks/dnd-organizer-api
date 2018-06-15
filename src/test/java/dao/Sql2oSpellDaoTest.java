@@ -102,6 +102,13 @@ public class Sql2oSpellDaoTest {
 
     @Test
     public void deleteById() {
+        Spell newSpell = setupNewSpell();
+        spellDao.add(newSpell);
+        Spell newSpell2 = setupNewSpell();
+        spellDao.add(newSpell2);
+        assertEquals(2, spellDao.getAll().size());
+        spellDao.deleteById(newSpell.getId());
+        assertEquals(1, spellDao.getAll().size());
     }
 
     @Test
