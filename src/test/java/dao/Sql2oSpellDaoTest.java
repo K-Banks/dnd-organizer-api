@@ -59,6 +59,13 @@ public class Sql2oSpellDaoTest {
 
     @Test
     public void findById() {
+        Spell newSpell = setupNewSpell();
+        Spell newSpell2 = setupNewSpell();
+        Spell newSpell3 = setupNewSpell();
+        spellDao.add(newSpell);
+        spellDao.add(newSpell2);
+        spellDao.add(newSpell3);
+        assertEquals(newSpell2.getId(), spellDao.findById(newSpell2.getId()));
     }
 
     @Test
