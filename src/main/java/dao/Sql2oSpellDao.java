@@ -86,7 +86,14 @@ public class Sql2oSpellDao implements SpellDAO {
 
     @Override
     public void deleteById(int spellId) {
-
+        try (Connection con = sql2o.open()) {
+            con.createQuery("DELETE FROM spells WHERE id=" + spellId)
+                    .executeUpdate();
+            con.createQuery("DELETE FROM classes_spells WHERE spellId="+spellId)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
     }
 
     @Override
