@@ -1,5 +1,6 @@
 package dao;
 
+import models.Spell;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,11 @@ public class Sql2oSpellDaoTest {
     }
 
     @Test
-    public void add() {
+    public void addingNewSpellAssignsId() {
+        Spell newSpell = setupNewSpell();
+        assertEquals(0, newSpell.getId());
+        spellDao.add(newSpell);
+        assertNotEquals(0, newSpell.getId());
     }
 
     @Test
@@ -48,5 +53,10 @@ public class Sql2oSpellDaoTest {
 
     @Test
     public void deleteById() {
+    }
+
+    //helper
+    private Spell setupNewSpell(){
+        return new Spell("Clairvoyance", "testDescription", "Divination", 3, "10 minutes", false, true, "10 minutes", "1 mile", true, true, "a focus worth at least 100gp, either a jeweled horn for hearing or a glass eye for seeing");
     }
 }
