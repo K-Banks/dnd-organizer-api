@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.util.HashMap;
+
 import static org.junit.Assert.*;
 
 public class Sql2oClassDaoTest {
@@ -60,6 +62,14 @@ public class Sql2oClassDaoTest {
 
     @Test
     public void update() {
+        Class newClass = setupClass();
+        HashMap<String, Object> propertiesToUpdate = new HashMap<>();
+        propertiesToUpdate.put("name", "Kyle");
+        propertiesToUpdate.put("description", "this is a new description");
+        classDao.add(newClass);
+        classDao.update(propertiesToUpdate, newClass.getId());
+        assertEquals("Kyle", classDao.findById(newClass.getId()).getName());
+        assertEquals("this is a new description", classDao.findById(newClass.getId()).getDescription());
     }
 
     @Test
