@@ -106,9 +106,14 @@ public class Sql2oSpellDaoTest {
         spellDao.add(newSpell);
         Spell newSpell2 = setupNewSpell();
         spellDao.add(newSpell2);
+        int classId = 2;
+        spellDao.assignSpellToClass(newSpell.getId(), classId);
+        spellDao.assignSpellToClass(newSpell2.getId(), classId);
         assertEquals(2, spellDao.getAll().size());
+        assertEquals(2, spellDao.getAllSpellsOfAClass(classId).size());
         spellDao.deleteById(newSpell.getId());
         assertEquals(1, spellDao.getAll().size());
+        assertEquals(1, spellDao.getAllSpellsOfAClass(classId).size());
     }
 
     @Test
