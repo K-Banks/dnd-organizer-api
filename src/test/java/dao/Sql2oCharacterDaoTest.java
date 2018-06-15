@@ -49,6 +49,16 @@ public class Sql2oCharacterDaoTest {
 
     @Test
     public void findById() {
+        Character newCharacter = setupCharacter();
+        Character newCharacter2 = setupCharacter();
+        Character newCharacter3 = setupCharacter();
+        characterDao.add(newCharacter);
+        characterDao.add(newCharacter2);
+        characterDao.add(newCharacter3);
+        assertEquals(newCharacter.getName(), characterDao.findById(newCharacter.getId()).getName());
+        assertEquals(newCharacter.getRace(), characterDao.findById(newCharacter.getId()).getRace());
+        assertEquals(newCharacter.getLevel(), characterDao.findById(newCharacter.getId()).getLevel());
+        assertEquals(newCharacter.getClassId(), characterDao.findById(newCharacter.getId()).getClassId());
     }
 
     @Test
