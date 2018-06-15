@@ -9,6 +9,8 @@ import org.sql2o.Sql2o;
 import models.Class;
 import dao.Sql2oClassDao;
 
+import java.util.HashMap;
+
 import static org.junit.Assert.*;
 
 public class Sql2oSpellDaoTest {
@@ -65,11 +67,36 @@ public class Sql2oSpellDaoTest {
         spellDao.add(newSpell);
         spellDao.add(newSpell2);
         spellDao.add(newSpell3);
-        assertEquals(newSpell2.getId(), spellDao.findById(newSpell2.getId()));
+        assertEquals(newSpell2.getId(), spellDao.findById(newSpell2.getId()).getId());
     }
 
     @Test
     public void update() {
+        Spell newSpell=setupNewSpell();
+        spellDao.add(newSpell);
+        HashMap<String, Object> propertiesToUpdate = new HashMap<>();
+        propertiesToUpdate.put("name", "name");
+        propertiesToUpdate.put("description", "description");
+        propertiesToUpdate.put("school", "school");
+        propertiesToUpdate.put("level", 1);
+        propertiesToUpdate.put("castTime", "castTime");
+        propertiesToUpdate.put("concentration", false);
+        propertiesToUpdate.put("duration", "duration");
+        propertiesToUpdate.put("range", "range");
+        propertiesToUpdate.put("verbal", false);
+        propertiesToUpdate.put("somatic", false);
+        propertiesToUpdate.put("material", "material");
+        assertEquals("name", spellDao.findById(newSpell.getId()).getName());
+        assertEquals("description", spellDao.findById(newSpell.getId()).getDescription());
+        assertEquals("duration", spellDao.findById(newSpell.getId()).getDuration());
+        assertEquals("school", spellDao.findById(newSpell.getId()).getSchool());
+        assertEquals(1, spellDao.findById(newSpell.getId()).getLevel());
+        assertEquals("castTime", spellDao.findById(newSpell.getId()).getCastTime());
+        assertFalse(spellDao.findById(newSpell.getId()).isConcentration());
+        assertEquals("range", spellDao.findById(newSpell.getId()).getRange());
+        assertFalse(spellDao.findById(newSpell.getId()).isVerbal());
+        assertFalse(spellDao.findById(newSpell.getId()).isSomatic());
+        assertEquals("material", spellDao.findById(newSpell.getId()).getMaterial());
     }
 
     @Test
