@@ -32,7 +32,11 @@ public class Sql2oCharacterDao implements CharacterDAO {
 
     @Override
     public List<Character> getAll() {
-        return null;
+        String sql = "SELECT * FROM characters";
+        try (Connection con = sql2o.open()) {
+           return con.createQuery(sql)
+                    .executeAndFetch(Character.class);
+        }
     }
 
     @Override
