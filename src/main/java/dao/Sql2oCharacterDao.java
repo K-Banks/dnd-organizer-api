@@ -5,6 +5,7 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,7 +52,25 @@ public class Sql2oCharacterDao implements CharacterDAO {
 
     @Override
     public void update(HashMap<String, Object> propertiesToUpdate, int characterUpdatedId) {
-
+        int updates = propertiesToUpdate.size();
+        ArrayList<String> properties = new ArrayList<>();
+        ArrayList<Object> values = new ArrayList<>();
+        for (String key: propertiesToUpdate.keySet()) {
+            properties.add(key);
+            values.add(propertiesToUpdate.get(key));
+        }
+        try (Connection con = sql2o.open()) {
+            int i = 0;
+            while (i < updates) {
+                con.createQuery("UPDATE characters SET (" + properties.get(i) + ") = (:" + properties.get(i) + ") WHERE id=:id")
+                        .addParameter(properties.get(i), values.get(i))
+                        .addParameter("id", characterUpdatedId)
+                        .executeUpdate();
+                i = i+1;
+            }
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
     }
 
     @Override
