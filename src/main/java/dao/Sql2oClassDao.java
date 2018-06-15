@@ -75,6 +75,13 @@ public class Sql2oClassDao implements ClassDAO{
 
     @Override
     public void deleteById(int classId) {
-
+        String sql = "DELETE FROM classes WHERE id=:id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", classId)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
     }
 }
