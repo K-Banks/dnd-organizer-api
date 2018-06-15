@@ -41,7 +41,12 @@ public class Sql2oCharacterDao implements CharacterDAO {
 
     @Override
     public Character findById(int characterId) {
-        return null;
+        String sql = "SELECT * FROM characters WHERE id = :id";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("id", characterId)
+                    .executeAndFetchFirst(Character.class);
+        }
     }
 
     @Override
