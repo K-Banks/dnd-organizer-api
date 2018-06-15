@@ -17,7 +17,16 @@ public class Sql2oSpellDao implements SpellDAO {
 
     @Override
     public void add(Spell newSpell) {
-
+        String sql = "INSERT INTO spells (name, description, school, level, castTime, ritual, concentration, duration, range, verbal, somatic, material) VALUES (:name, :description, :school, :level, :castTime, :ritual, :concentration, :duration, :range, :verbal, :somatic, :material)";
+        try (Connection con = sql2o.open()) {
+            int id = (int)con.createQuery(sql)
+                    .bind(newSpell)
+                    .executeUpdate()
+                    .getKey();
+            newSpell.setId(id);
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
     }
 
     @Override
