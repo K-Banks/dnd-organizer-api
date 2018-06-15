@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Objects;
+
 public class Class {
     private int id;
     private String name;
@@ -32,5 +34,20 @@ public class Class {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Class aClass = (Class) o;
+        return Objects.equals(name, aClass.name) &&
+                Objects.equals(description, aClass.description);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, description);
     }
 }

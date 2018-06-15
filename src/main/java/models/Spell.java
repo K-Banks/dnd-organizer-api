@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Objects;
+
 public class Spell {
     private int id;
     private String name;
@@ -132,5 +134,30 @@ public class Spell {
 
     public void setMaterial(String material) {
         this.material = material;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Spell spell = (Spell) o;
+        return level == spell.level &&
+                ritual == spell.ritual &&
+                concentration == spell.concentration &&
+                verbal == spell.verbal &&
+                somatic == spell.somatic &&
+                Objects.equals(name, spell.name) &&
+                Objects.equals(description, spell.description) &&
+                Objects.equals(school, spell.school) &&
+                Objects.equals(castTime, spell.castTime) &&
+                Objects.equals(duration, spell.duration) &&
+                Objects.equals(range, spell.range) &&
+                Objects.equals(material, spell.material);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, description, school, level, castTime, ritual, concentration, duration, range, verbal, somatic, material);
     }
 }
