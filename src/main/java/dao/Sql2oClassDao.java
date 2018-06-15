@@ -32,7 +32,11 @@ public class Sql2oClassDao implements ClassDAO{
 
     @Override
     public List<Class> getAll() {
-        return null;
+        String sql = "SELECT * FROM classes";
+        try (Connection con = sql2o.open()){
+            return con.createQuery(sql)
+                    .executeAndFetch(Class.class);
+        }
     }
 
     @Override
