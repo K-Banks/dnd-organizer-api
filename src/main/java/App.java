@@ -21,7 +21,7 @@ public class App {
         Connection con;
         Gson gson = new Gson();
 
-        String connectionString = "jdbc:h2:`/DnDSpells.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
+        String connectionString = "jdbc:h2:~/DnDSpells.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "", "");
 
         spellDao = new Sql2oSpellDao(sql2o);
@@ -32,8 +32,12 @@ public class App {
         //GET all spells
         get("/spells", "application/json", (request, response) -> {
             List<Spell> allSpells = spellDao.getAll();
-            if (allSpells.size()<1) {
-                response.status()
+            if (allSpells.size()<=0) {
+                response.status(404);
+                return gson.toJson(String.format("Sorry, there are no spells available."));
+            } else {
+                response.status(200);
+                return gson.toJson(allSpells);
             }
         });
 
@@ -64,9 +68,11 @@ public class App {
         //POST new spell
         post("/spells/add", "application/json", (request, response) -> {
             Spell spell = gson.fromJson(request.body(), Spell.class);
+            spellDao.add(spell);
+            Spell spellAdded = spellDao.findById(spell.getId());
             response.status(201);
             response.type("application/json");
-            return gson.toJson(spell);
+            return gson.toJson(spellAdded);
         });
 
 //        //POST assign spell to a class
