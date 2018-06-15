@@ -51,6 +51,6 @@ public class CharacterTest {
 
     //Helper function
     private Character setupNewCharacter() {
-        return new Character("Jo", "elf", 4, 3);
+        return new Character("Jo", "Elf", 4, 3);
     }
 }
