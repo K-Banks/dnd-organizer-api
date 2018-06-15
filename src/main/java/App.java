@@ -41,12 +41,30 @@ public class App {
             }
         });
 
-//        //GET all classes
-//        get("/classes", "application/json", (request, response) -> {});
-//
-//        //GET all characters
-//        get("/characters", "application/json", (request, response) -> {});
-//
+        //GET all classes
+        get("/classes", "application/json", (request, response) -> {
+            List<Class> allClasses = classDao.getAll();
+            if (allClasses.size()<=0) {
+                response.status(404);
+                return gson.toJson(String.format("Sorry, there are no classes right now."));
+            } else {
+                response.status(200);
+                return gson.toJson(allClasses);
+            }
+        });
+
+        //GET all characters
+        get("/characters", "application/json", (request, response) -> {
+            List<Character> allCharacters = characterDao.getAll();
+            if (allCharacters.size()<=0) {
+                response.status(404);
+                return gson.toJson(String.format("Sorry, there are no characters right now."));
+            } else {
+                response.status(200);
+                return gson.toJson(allCharacters);
+            }
+        });
+
 //        //GET spell details by id
 //        get("/spells/:spellId", "application/json", (request, response) -> {});
 //
