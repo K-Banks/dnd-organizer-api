@@ -59,20 +59,52 @@ public class App {
 //        //GET all spells for a class
 //        get("/classes/:classId/spells", "application/json", (request, response) -> {});
 //
-//        //POST new character
-//        post("/characters/add", "application/json", (request, response) -> {});
-//
-//        //POST new class
-//        post("/classes/add", "application/json", (request, response) -> {});
+        //POST new character
+        post("/characters/add", "application/json", (request, response) -> {
+            try {
+                Character newCharacter = gson.fromJson(request.body(), Character.class);
+                characterDao.add(newCharacter);
+                Character characterAdded = characterDao.findById(newCharacter.getId());
+                response.status(201);
+                response.type("application/json");
+                return gson.toJson(characterAdded);
+            } catch(Error error) {
+                response.status(400);
+                System.out.println(error);
+                return gson.toJson(String.format("Sorry, your submission was not able to be processed"));
+            }
+        });
+
+        //POST new class
+        post("/classes/add", "application/json", (request, response) -> {
+            try {
+                Class newClass = gson.fromJson(request.body(), Class.class);
+                classDao.add(newClass);
+                Class classAdded = classDao.findById(newClass.getId());
+                response.status(201);
+                response.type("application/json");
+                return gson.toJson(classAdded);
+            } catch(Error error) {
+                response.status(400);
+                System.out.println(error);
+                return gson.toJson(String.format("Sorry, your submission was not able to be processed"));
+            }
+        });
 
         //POST new spell
         post("/spells/add", "application/json", (request, response) -> {
-            Spell spell = gson.fromJson(request.body(), Spell.class);
-            spellDao.add(spell);
-            Spell spellAdded = spellDao.findById(spell.getId());
-            response.status(201);
-            response.type("application/json");
-            return gson.toJson(spellAdded);
+            try {
+                Spell spell = gson.fromJson(request.body(), Spell.class);
+                spellDao.add(spell);
+                Spell spellAdded = spellDao.findById(spell.getId());
+                response.status(201);
+                response.type("application/json");
+                return gson.toJson(spellAdded);
+            } catch(Error error) {
+                response.status(400);
+                System.out.println(error);
+                return gson.toJson(String.format("Sorry, your submission was not able to be processed"));
+            }
         });
 
 //        //POST assign spell to a class
