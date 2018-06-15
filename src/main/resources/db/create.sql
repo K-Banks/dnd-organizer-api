@@ -32,6 +32,6 @@ CREATE TABLE IF NOT EXISTS spells(
 
 CREATE TABLE IF NOT EXISTS classes_spells (
     id int PRIMARY KEY auto_increment,
-    class_id INTEGER,
-    spell_id INTEGER
+    classId INTEGER,
+    spellId INTEGER
 );
