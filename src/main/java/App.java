@@ -84,12 +84,44 @@ public class App {
             }
         });
 
-//        //GET character details by id
-//        get("/characters/:characterId", "application/json", (request, response) -> {});
-//
-//        //GET class details by id
-//        get("/classes/:classId", "application/json", (request, response) -> {});
-//
+        //GET character details by id
+        get("/characters/:characterId", "application/json", (request, response) -> {
+            try {
+                Integer characterId = Integer.parseInt(request.params("characterId"));
+                Character foundCharacter = characterDao.findById(characterId);
+                if (foundCharacter != null) {
+                    response.status(200);
+                    return gson.toJson(foundCharacter);
+                } else {
+                    response.status(404);
+                    return gson.toJson(String.format("This character does not exist."));
+                }
+            } catch (Error error) {
+                System.out.println(error);
+                response.status(400);
+                return gson.toJson(String.format("Bad request."));
+            }
+        });
+
+        //GET class details by id
+        get("/classes/:classId", "application/json", (request, response) -> {
+            try {
+                Integer classId = Integer.parseInt(request.params("classId"));
+                Class foundClass = classDao.findById(classId);
+                if (foundClass != null) {
+                    response.status(200);
+                    return gson.toJson(foundClass);
+                } else {
+                    response.status(404);
+                    return gson.toJson(String.format("This class does not exist."));
+                }
+            } catch (Error error) {
+                System.out.println(error);
+                response.status(400);
+                return gson.toJson(String.format("Bad request."));
+            }
+        });
+
 //        //GET all spells for a class
 //        get("/classes/:classId/spells", "application/json", (request, response) -> {});
 //
