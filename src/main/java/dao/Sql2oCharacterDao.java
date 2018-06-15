@@ -1,6 +1,9 @@
 package dao;
 
+import models.Character;
+import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +18,16 @@ public class Sql2oCharacterDao implements CharacterDAO {
 
     @Override
     public void add(Character newCharacter) {
-
+        String sql = "INSERT INTO characters (name, race, classId, level) VALUES (:name, :race, :classId, :level)";
+        try (Connection con = sql2o.open()) {
+            int id = (int) con.createQuery(sql)
+                    .bind(newCharacter)
+                    .executeUpdate()
+                    .getKey();
+            newCharacter.setId(id);
+        } catch(Sql2oException ex) {
+            System.out.println(ex);
+        }
     }
 
     @Override

@@ -30,7 +30,7 @@ public class Sql2oCharacterDaoTest {
 
     @Test
     public void addInstantiatesAnIdForTheCharacter() {
-        Character newCharacter = setupCharcter();
+        Character newCharacter = setupCharacter();
         int currentId = newCharacter.getId();
         characterDao.add(newCharacter);
         assertNotEquals(currentId, newCharacter.getId());
@@ -38,6 +38,13 @@ public class Sql2oCharacterDaoTest {
 
     @Test
     public void getAll() {
+        Character newCharacter = setupCharacter();
+        Character newCharacter2 = setupCharacter();
+        Character newCharacter3 = setupCharacter();
+        characterDao.add(newCharacter);
+        characterDao.add(newCharacter2);
+        characterDao.add(newCharacter3);
+        assertEquals(3, characterDao.getAll().size());
     }
 
     @Test
@@ -53,7 +60,7 @@ public class Sql2oCharacterDaoTest {
     }
 
     //Helper
-    private Character setupCharcter() {
+    private Character setupCharacter() {
         return new Character("name", "race", 3, 4);
     }
 }

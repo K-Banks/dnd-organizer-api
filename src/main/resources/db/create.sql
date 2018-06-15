@@ -3,8 +3,8 @@ SET MODE PostgreSQL;
 CREATE TABLE IF NOT EXISTS characters (
     id int PRIMARY KEY auto_increment,
     name VARCHAR,
-    class_id INTEGER,
     race VARCHAR,
+    classId INTEGER,
     level INTEGER
 );
 
