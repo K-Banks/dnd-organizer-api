@@ -10,6 +10,7 @@ import org.sql2o.Sql2o;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static spark.Spark.*;
 
@@ -210,13 +211,13 @@ public class App {
             Integer characterId = Integer.parseInt(request.params("characterId"));
             if (characterDao.findById(characterId) == null) {
                 response.status(400);
-                return gson.toJson(String.format("This character does not exist. Request refused."));
+                return gson.toJson(String.format("This character does not exist. Request denied."));
             }
             Integer classId = Integer.parseInt(request.params("classId"));
             Class classCheck = classDao.findById(classId);
             if (classCheck == null) {
                 response.status(400);
-                return gson.toJson(String.format("This class does not exist. Request refused."));
+                return gson.toJson(String.format("This class does not exist. Request denied."));
             }
             HashMap<String, Object> classIdUpdate = new HashMap<>();
             classIdUpdate.put("classId", classId);
@@ -226,22 +227,51 @@ public class App {
             return gson.toJson(foundCharacter);
         });
 
-//        //UPDATE character by id
-//        put("/characters/:characterId/update", "application/json", (request, response) -> {});
+        //UPDATE character by id
+//        put("/characters/:characterId/update", "application/json", (request, response) -> {
+//            Integer characterId = Integer.parseInt(request.params("characterId"));
+//            if (characterDao.findById(characterId) == null) {
+//                response.status(400);
+//                return gson.toJson(String.format("This character does not exist. Request denied."));
+//            }
+//            try {
+//                HashMap<String, Object> propertiesToUpdate = gson.toJson(request.body(), HashMap<>.class);
 //
+//            } catch (Error error) {
+//                System.out.println(error);
+//                response.status(400);
+//                return gson.toJson(String.format("This is a bad request."));
+//            }
+//        });
+
 //        //UPDATE class by id
 //        put("/classes/:classId/update", "application/json", (request, response) -> {});
 //
 //        //UPDATE spell by id
 //        put("/spells/:spellId/update", "application/json", (request, response) -> {});
 //
-//        //DELETE character by id
-//        delete("/characters/:characterId", "application/json", (request, response) -> {});
-//
-//        //DELETE class by id
-//        delete("/classes/:classId", "application/json", (request, response) -> {});
-//
-//        //DELETE spell by id
-//        delete("/spells/:spellId", "application/json", (request, response) -> {});
+        //DELETE character by id
+        delete("/characters/:characterId", "application/json", (request, response) -> {
+            Integer characterId = Integer.parseInt(request.params("characterId"));
+            characterDao.deleteById(characterId);
+            response.status(200);
+            return gson.toJson(String.format("Character deleted"));
+        });
+
+        //DELETE class by id
+        delete("/classes/:classId", "application/json", (request, response) -> {
+            Integer classId = Integer.parseInt(request.params("classId"));
+            classDao.deleteById(classId);
+            response.status(200);
+            return gson.toJson(String.format("Class deleted"));
+        });
+
+        //DELETE spell by id
+        delete("/spells/:spellId", "application/json", (request, response) -> {
+            Integer spellId = Integer.parseInt(request.params("spellId"));
+            spellDao.deleteById(spellId);
+            response.status(200);
+            return gson.toJson(String.format("Spell deleted"));
+        });
     }
 }
