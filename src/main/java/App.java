@@ -123,9 +123,23 @@ public class App {
             }
         });
 
-//        //GET all spells for a class
-//        get("/classes/:classId/spells", "application/json", (request, response) -> {});
-//
+        //GET all spells for a class
+        get("/classes/:classId/spells", "application/json", (request, response) -> {
+            Integer classId = Integer.parseInt(request.params("classId"));
+            if (classDao.findById(classId) == null) {
+                response.status(400);
+                return gson.toJson(String.format("This class does not exist."));
+            }
+            List<Spell> spells = spellDao.getAllSpellsOfAClass(classId);
+            if (spells.size()<=0) {
+                response.status(404);
+                return gson.toJson(String.format("This class has no spells assigned to it."));
+            } else {
+                response.status(200);
+                return gson.toJson(spells);
+            }
+        });
+
         //POST new character
         post("/characters/add", "application/json", (request, response) -> {
             try {
