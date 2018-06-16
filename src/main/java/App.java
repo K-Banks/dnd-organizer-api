@@ -8,6 +8,7 @@ import models.Spell;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static spark.Spark.*;
@@ -173,12 +174,44 @@ public class App {
             }
         });
 
-//        //POST assign spell to a class
-//        post("/class/:classId/spells/:spellId/add", "application/json", (request, response) -> {});
-//
-//        //POST assign class to a character
-//        post("/characters/:characterId/classes/:classId/add", "application/json", (request, response) -> {});
-//
+        //POST assign spell to a class
+        post("/classes/:classId/spells/:spellId/add", "application/json", (request, response) -> {
+            Integer classId = Integer.parseInt(request.params("classId"));
+            if (classDao.findById(classId) == null) {
+                response.status(400);
+                return gson.toJson(String.format("This class does not exist. Request denied."));
+            }
+            Integer spellId = Integer.parseInt(request.params("spellId"));
+            if (spellDao.findById(spellId) == null){
+                response.status(400);
+                return gson.toJson(String.format("This spell does not exist. Request denied."));
+            }
+            spellDao.assignSpellToClass(spellId, classId);
+            response.status(201);
+            return gson.toJson(String.format("Success, spell has been assigned to class."));
+        });
+
+        //POST assign class to a character
+        post("/characters/:characterId/classes/:classId/add", "application/json", (request, response) -> {
+            Integer characterId = Integer.parseInt(request.params("characterId"));
+            if (characterDao.findById(characterId) == null) {
+                response.status(400);
+                return gson.toJson(String.format("This character does not exist. Request refused."));
+            }
+            Integer classId = Integer.parseInt(request.params("classId"));
+            Class classCheck = classDao.findById(classId);
+            if (classCheck == null) {
+                response.status(400);
+                return gson.toJson(String.format("This class does not exist. Request refused."));
+            }
+            HashMap<String, Object> classIdUpdate = new HashMap<>();
+            classIdUpdate.put("classId", classId);
+            characterDao.update(classIdUpdate, characterId);
+            Character foundCharacter = characterDao.findById(characterId);
+            response.status(201);
+            return gson.toJson(foundCharacter);
+        });
+
 //        //UPDATE character by id
 //        put("/characters/:characterId/update", "application/json", (request, response) -> {});
 //
