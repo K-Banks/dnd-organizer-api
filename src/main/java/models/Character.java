@@ -7,14 +7,16 @@ public class Character {
     private int id;
     private String race;
     private int classId;
-    private int level;
+    private int castingLevel;
+    private int spellCount;
     private String preparedSpells;
 
-    public Character(String name, String race, int classId, int level, String preparedSpells) {
+    public Character(String name, String race, int classId, int level, int spellCount, String preparedSpells) {
         this.name = name;
         this.race = race;
         this.classId = classId;
-        this.level = level;
+        this.castingLevel = castingLevel;
+        this.spellCount = spellCount;
         this.preparedSpells = preparedSpells;
     }
 
@@ -59,11 +61,19 @@ public class Character {
     }
 
     public int getLevel() {
-        return level;
+        return castingLevel;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setLevel(int castingLevel) {
+        this.castingLevel = castingLevel;
+    }
+
+    public int getSpellCount() {
+        return spellCount;
+    }
+
+    public void setSpellCount(int spellCount) {
+        this.spellCount = spellCount;
     }
 
     @Override
@@ -72,14 +82,16 @@ public class Character {
         if (o == null || getClass() != o.getClass()) return false;
         Character character = (Character) o;
         return classId == character.classId &&
-                level == character.level &&
+                castingLevel == character.castingLevel &&
+                spellCount == character.spellCount &&
                 Objects.equals(name, character.name) &&
-                Objects.equals(race, character.race);
+                Objects.equals(race, character.race) &&
+                Objects.equals(preparedSpells, character.preparedSpells);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, race, classId, level);
+        return Objects.hash(name, race, classId, castingLevel, spellCount, preparedSpells);
     }
 }

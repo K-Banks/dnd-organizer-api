@@ -1,13 +1,12 @@
 SET MODE PostgreSQL;
 
---DROP TABLE characters;
-
 CREATE TABLE IF NOT EXISTS characters (
     id int PRIMARY KEY auto_increment,
     name VARCHAR,
     race VARCHAR,
     classId INTEGER,
-    level INTEGER,
+    castingLevel INTEGER,
+    spellCount INTEGER,
     preparedSpells VARCHAR
 );
 
