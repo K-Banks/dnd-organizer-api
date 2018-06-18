@@ -227,28 +227,62 @@ public class App {
             return gson.toJson(foundCharacter);
         });
 
-        //UPDATE character by id
-//        put("/characters/:characterId/update", "application/json", (request, response) -> {
-//            Integer characterId = Integer.parseInt(request.params("characterId"));
-//            if (characterDao.findById(characterId) == null) {
-//                response.status(400);
-//                return gson.toJson(String.format("This character does not exist. Request denied."));
-//            }
-//            try {
-//                HashMap<String, Object> propertiesToUpdate = gson.toJson(request.body(), HashMap<>.class);
-//
-//            } catch (Error error) {
-//                System.out.println(error);
-//                response.status(400);
-//                return gson.toJson(String.format("This is a bad request."));
-//            }
-//        });
+//        UPDATE character by id
+        put("/characters/:characterId/update", "application/json", (request, response) -> {
+            Integer characterId = Integer.parseInt(request.params("characterId"));
+            if (characterDao.findById(characterId) == null) {
+                response.status(400);
+                return gson.toJson(String.format("This character does not exist. Request denied."));
+            }
+            try {
+                HashMap<String, Object> propertiesToUpdate = gson.fromJson(request.body(), HashMap.class);
+                characterDao.update(propertiesToUpdate, characterId);
+                return gson.toJson(characterDao.findById(characterId));
+
+            } catch (Error error) {
+                System.out.println(error);
+                response.status(400);
+                return gson.toJson(String.format("This is a bad request."));
+            }
+        });
 
 //        //UPDATE class by id
-//        put("/classes/:classId/update", "application/json", (request, response) -> {});
+        put("/classes/:classId/update", "application/json", (request, response) -> {
+            Integer classId = Integer.parseInt(request.params("classId"));
+            if (classDao.findById(classId) == null) {
+                response.status(400);
+                return gson.toJson(String.format("This class does not exist. Request denied."));
+            }
+            try {
+                HashMap<String, Object> propertiesToUpdate = gson.fromJson(request.body(), HashMap.class);
+                classDao.update(propertiesToUpdate, classId);
+                return gson.toJson(classDao.findById(classId));
+
+            } catch (Error error) {
+                System.out.println(error);
+                response.status(400);
+                return gson.toJson(String.format("This is a bad request."));
+            }
+        });
 //
 //        //UPDATE spell by id
-//        put("/spells/:spellId/update", "application/json", (request, response) -> {});
+        put("/spells/:spellId/update", "application/json", (request, response) -> {
+            Integer spellId = Integer.parseInt(request.params("spellId"));
+            if (spellDao.findById(spellId) == null) {
+                response.status(400);
+                return gson.toJson(String.format("This spell does not exist. Request denied."));
+            }
+            try {
+                HashMap<String, Object> propertiesToUpdate = gson.fromJson(request.body(), HashMap.class);
+                spellDao.update(propertiesToUpdate, spellId);
+                return gson.toJson(spellDao.findById(spellId));
+
+            } catch (Error error) {
+                System.out.println(error);
+                response.status(400);
+                return gson.toJson(String.format("This is a bad request."));
+            }
+        });
 //
         //DELETE character by id
         delete("/characters/:characterId", "application/json", (request, response) -> {
