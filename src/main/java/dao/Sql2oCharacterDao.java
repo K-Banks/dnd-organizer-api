@@ -19,7 +19,7 @@ public class Sql2oCharacterDao implements CharacterDAO {
 
     @Override
     public void add(Character newCharacter) {
-        String sql = "INSERT INTO characters (name, race, classId, level) VALUES (:name, :race, :classId, :level)";
+        String sql = "INSERT INTO characters (name, race, classId, level, preparedSpells) VALUES (:name, :race, :classId, :level, :preparedSpells)";
         try (Connection con = sql2o.open()) {
             int id = (int) con.createQuery(sql)
                     .bind(newCharacter)

@@ -8,12 +8,22 @@ public class Character {
     private String race;
     private int classId;
     private int level;
+    private String preparedSpells;
 
-    public Character(String name, String race, int classId, int level) {
+    public Character(String name, String race, int classId, int level, String preparedSpells) {
         this.name = name;
         this.race = race;
         this.classId = classId;
         this.level = level;
+        this.preparedSpells = preparedSpells;
+    }
+
+    public String getPreparedSpells() {
+        return preparedSpells;
+    }
+
+    public void setPreparedSpells(String preparedSpells) {
+        this.preparedSpells = preparedSpells;
     }
 
     public String getName() {
