@@ -7,7 +7,7 @@ import models.Character;
 import models.Spell;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-
+import filters.CorsFilter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +15,7 @@ import java.util.Map;
 import static spark.Spark.*;
 
 public class App {
+    private static boolean isProduction = false;
 
     static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
@@ -23,15 +24,15 @@ public class App {
         }
         return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
     }
+
     public static void main(String[] args) {
-
         port(getHerokuAssignedPort());
-
         Sql2oSpellDao spellDao;
         Sql2oClassDao classDao;
         Sql2oCharacterDao characterDao;
         Connection con;
         Gson gson = new Gson();
+        CorsFilter.apply();
 
         // Local Hosting settings
 //        String connectionString = "jdbc:postgresql://localhost:5432/dndspells";
@@ -353,6 +354,28 @@ public class App {
             return gson.toJson(String.format("Spell deleted"));
         });
 
+        //Handling OPTIONS preflight?
+        options("/*", (request, response) -> {
+            String accessControlRequestHeaders = request
+                    .headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers",
+                        accessControlRequestHeaders);
+            }
+
+            String accessControlRequestMethod = request
+                    .headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods",
+                        accessControlRequestMethod);
+            }
+            return "OK";
+        });
+
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
+
+        after((request, response) -> {
+            response.type("application/json");
+        });
     }
 }
