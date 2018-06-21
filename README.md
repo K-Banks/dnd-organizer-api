@@ -86,7 +86,9 @@ _This API will help players quickly call what spells are accessible to a charact
  * User can details of a single spell, class, or player character
  * User can delete spells, classes, or player characters
 
-## Known Bugs
+## Known Issues
+
+_While updating project, IDE configurations were changed and prevented effective testing. Files were copied to a new project folder and force pushed to same repository. History of commits prior to issues is available on the "dev" branch._
 
 _No known bugs at this time._
 _Please contact author at kayleubanks@gmail.com with any bugs._
